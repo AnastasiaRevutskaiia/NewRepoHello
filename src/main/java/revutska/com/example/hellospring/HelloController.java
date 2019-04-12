@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@PropertySource("${classpath:application.yml}")
 public class HelloController {
 
     @Value("${hello-controller.prefix}")
