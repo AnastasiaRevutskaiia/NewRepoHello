@@ -1,23 +1,27 @@
 package revutska.com.example.hellospring;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@PropertySource("${classpath:application.yml}")
 public class HelloController {
-    @RequestMapping("/hello/{name}")
-    public String getNameHelloVariable(@PathVariable(name="name") String name) {
-        return "Hello " + name + "!";
+
+    @Value("${hello-controller.prefix}")
+    private String prefix;
+
+    @Value("${hello-controller.suffix}")
+    private String suffix;
+
+    @GetMapping("/hello/{name}")
+    public String getHello(@PathVariable(name="name") String name) {
+        return prefix + name + suffix;
     }
 
-    @RequestMapping("/hello")
-    public String getNameHelloParam(@RequestParam(name="name", required = true) String name) {
-        return "Hello " + name + "!";
+    @GetMapping("/hello-world")
+    public String getHelloWorld() {
+        return getHello("World");
     }
 }
